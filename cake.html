@@ -1,0 +1,376 @@
+<!doctype html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Birthday Carousel</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    html, body {
+      height: 100%;
+      width: 100%;
+      background-color: #000000;
+      color: #fef08a;
+      font-family: Georgia, serif;
+    }
+    
+    body {
+      box-sizing: border-box;
+    }
+    
+    .carousel-slide {
+      transition: opacity 600ms ease-in-out;
+    }
+    
+    .app-container {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      background-color: #000000;
+      color: #fef08a;
+    }
+    
+    .header {
+      width: 100%;
+      padding: 24px 32px;
+      text-align: center;
+      background-color: #000000;
+    }
+    
+    .main-title {
+      font-size: 32px;
+      font-weight: bold;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: #fef08a;
+    }
+    
+    .subtitle {
+      font-size: 18px;
+      opacity: 0.8;
+      margin-top: 8px;
+      color: #fef08a;
+    }
+    
+    .carousel-container {
+      flex: 1;
+      width: 100%;
+      position: relative;
+      overflow: hidden;
+      background-color: #000000;
+    }
+    
+    .slide {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .poem-card {
+      max-width: 48rem;
+      margin: 0 auto;
+      padding: 48px 32px;
+      background-color: #a855f7;
+      border-radius: 24px;
+      color: #fef08a;
+    }
+    
+    .poem-label {
+      text-align: center;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+      color: #fef08a;
+      font-size: 14px;
+    }
+    
+    .poem-text {
+      line-height: 1.8;
+      text-align: center;
+      font-size: 18px;
+      color: #fef08a;
+    }
+    
+    .poem-text p {
+      margin-bottom: 4px;
+      color: #fef08a;
+    }
+    
+    .spotify-card {
+      max-width: 32rem;
+      margin: 0 auto;
+      padding: 48px 32px;
+      text-align: center;
+      color: #fef08a;
+    }
+    
+    .spotify-icon {
+      width: 96px;
+      height: 96px;
+      margin: 0 auto 24px;
+      color: #fef08a;
+    }
+    
+    .spotify-title {
+      font-size: 30px;
+      font-weight: bold;
+      margin-bottom: 16px;
+      color: #fef08a;
+    }
+    
+    .spotify-subtitle {
+      font-size: 18px;
+      opacity: 0.9;
+      margin-bottom: 32px;
+      color: #fef08a;
+    }
+    
+    .spotify-button {
+      display: inline-block;
+      padding: 16px 32px;
+      background-color: #eab308;
+      color: #000000;
+      border-radius: 9999px;
+      font-weight: 600;
+      font-size: 18px;
+      box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+      text-decoration: none;
+      transition: transform 300ms;
+    }
+    
+    .spotify-button:hover {
+      transform: scale(1.05);
+    }
+    
+    .footer {
+      width: 100%;
+      padding: 24px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background-color: #000000;
+    }
+    
+    .nav-button {
+      padding: 12px 24px;
+      border-radius: 9999px;
+      font-weight: 600;
+      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+      border: none;
+      cursor: pointer;
+      font-size: 14px;
+      transition: box-shadow 300ms;
+    }
+    
+    .nav-button:hover {
+      box-shadow: 0 10px 15px -3px rgba(0,0,0,0.2);
+    }
+    
+    .prev-button {
+      background-color: #fef08a;
+      color: #000000;
+    }
+    
+    .next-button {
+      background-color: #eab308;
+      color: #000000;
+    }
+    
+    .footer-center {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    
+    .dots-container {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+    
+    .dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 9999px;
+      background-color: rgba(254, 240, 138, 0.4);
+      transition: all 300ms;
+      border: none;
+      cursor: pointer;
+    }
+    
+    .dot.active {
+      transform: scale(1.25);
+      background-color: #eab308;
+    }
+    
+    .footer-text {
+      font-size: 14px;
+      opacity: 0.8;
+      color: #fef08a;
+    }
+    
+    .model-overlay {
+      position: absolute;
+      bottom: 32px;
+      left: 0;
+      right: 0;
+      text-align: center;
+    }
+    
+    .model-label {
+      font-size: 18px;
+      font-weight: 600;
+      padding: 8px 16px;
+      background-color: rgba(0,0,0,0.7);
+      backdrop-filter: blur(8px);
+      display: inline-block;
+      border-radius: 9999px;
+      color: #fef08a;
+    }
+  </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+  <script src="/_sdk/element_sdk.js" type="text/javascript"></script>
+  <script src="https://cdn.tailwindcss.com" type="text/javascript"></script>
+ </head>
+ <body>
+  <div class="app-container"><!-- Header -->
+   <header class="header">
+    <h1 class="main-title">MY HEART FOR YOU</h1>
+    <p class="subtitle">A birthday carousel, just for you</p>
+   </header><!-- Carousel Container -->
+   <main class="carousel-container"><!-- Slide 1: 3D Model -->
+    <section class="carousel-slide slide" style="opacity: 1;" data-slide="0">
+     <div style="width: 100%; height: 100%; position: relative;"><iframe title="Desserts and cakes" frameborder="0" allowfullscreen mozallowfullscreen="true" webkitallowfullscreen="true" allow="autoplay; fullscreen; xr-spatial-tracking" xr-spatial-tracking execution-while-out-of-viewport execution-while-not-rendered web-share src="https://sketchfab.com/models/c4f1ade2db804f9b94a9e3e81b2e311c/embed?autostart=1&amp;dnt=1" style="width: 100%; height: 100%;"></iframe>
+      <div class="model-overlay">
+       <p class="model-label">Sweet Treats for You 🎂</p>
+      </div>
+     </div>
+    </section><!-- Slide 2: Poem Part 1 -->
+    <section class="carousel-slide slide" style="opacity: 0; pointer-events: none;" data-slide="1">
+     <div class="poem-card">
+      <h2 class="poem-label">Part I · First Flutter</h2>
+      <div class="poem-text">
+       <p>Every time you're near me, my heart leaps,</p>
+       <p>I feel a warm sensation rising from the deep,</p>
+       <p>Starting as a minor warmth like the sunshine peeking,</p>
+       <p>Through half-drawn curtains, the comfort reeking,</p>
+       <p>But gradually spreading out to fill every part of the inning.</p>
+      </div>
+     </div>
+    </section><!-- Slide 3: Poem Part 2 -->
+    <section class="carousel-slide slide" style="opacity: 0; pointer-events: none;" data-slide="2">
+     <div class="poem-card">
+      <h2 class="poem-label">Part II · Your Laughter</h2>
+      <div class="poem-text">
+       <p>Everything around you becomes softer,</p>
+       <p>Like whispers drifting from a lofty coffer,</p>
+       <p>And the day gets brighter, and something I can't trace,</p>
+       <p>While the world moves at a more gentle and leisurely pace.</p>
+       <p style="margin-top: 16px;">The sound of your laughter stays in the air</p>
+       <p>Long after it has faded away like a prayer,</p>
+       <p>Touching parts of my mind like a gentle croon,</p>
+       <p>That I cannot reach with a tune.</p>
+      </div>
+     </div>
+    </section><!-- Slide 4: Poem Part 3 -->
+    <section class="carousel-slide slide" style="opacity: 0; pointer-events: none;" data-slide="3">
+     <div class="poem-card">
+      <h2 class="poem-label">Part III · Unfinished Happiness</h2>
+      <div class="poem-text">
+       <p>The flow of my thoughts towards you for hours,</p>
+       <p>They seem to go there suddenly, as do flowers,</p>
+       <p>When they move along with the breeze,</p>
+       <p>What I feel toward you in this feeling of ease,</p>
+       <p>And in this calmness is unwavering and unfinished,</p>
+       <p>A silent source of happiness that just won't be diminished.</p>
+      </div>
+     </div>
+    </section><!-- Slide 5: Spotify Playlist -->
+    <section class="carousel-slide slide" style="opacity: 0; pointer-events: none;" data-slide="4">
+     <div class="spotify-card">
+      <div>
+       <svg class="spotify-icon" viewbox="0 0 24 24" fill="currentColor"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z" />
+       </svg>
+       <h2 class="spotify-title">Your Birthday Playlist 🎵</h2>
+       <p class="spotify-subtitle">Music to celebrate you</p>
+      </div><a href="https://open.spotify.com/playlist/4cjzlzAwPGEbL8tV1s9lbb" target="_blank" rel="noopener noreferrer" class="spotify-button"> Open Playlist on Spotify </a>
+     </div>
+    </section>
+   </main><!-- Footer Controls -->
+   <footer class="footer"><button id="prev-btn" type="button" class="nav-button prev-button"> ← Previous </button>
+    <div class="footer-center">
+     <div id="dots-container" class="dots-container"></div>
+     <p class="footer-text">Happy Birthday, with all my heart.</p>
+    </div><button id="next-btn" type="button" class="nav-button next-button"> Next → </button>
+   </footer>
+  </div>
+  <script>
+    let currentSlide = 0;
+    const totalSlides = 5;
+    let slides, dots;
+
+    function showSlide(index) {
+      currentSlide = (index + totalSlides) % totalSlides;
+      
+      slides.forEach((slide, idx) => {
+        if (idx === currentSlide) {
+          slide.style.opacity = '1';
+          slide.style.pointerEvents = 'auto';
+        } else {
+          slide.style.opacity = '0';
+          slide.style.pointerEvents = 'none';
+        }
+      });
+
+      dots.forEach((dot, idx) => {
+        if (idx === currentSlide) {
+          dot.classList.add('active');
+        } else {
+          dot.classList.remove('active');
+        }
+      });
+    }
+
+    window.addEventListener("DOMContentLoaded", () => {
+      slides = Array.from(document.querySelectorAll(".carousel-slide"));
+      
+      const dotsContainer = document.getElementById("dots-container");
+      dots = [];
+      for (let i = 0; i < totalSlides; i++) {
+        const dot = document.createElement("button");
+        dot.type = "button";
+        dot.className = "dot";
+        dot.setAttribute("aria-label", `Go to slide ${i + 1}`);
+        dot.addEventListener("click", () => showSlide(i));
+        dotsContainer.appendChild(dot);
+        dots.push(dot);
+      }
+
+      document.getElementById("prev-btn").addEventListener("click", (e) => {
+        e.preventDefault();
+        showSlide(currentSlide - 1);
+      });
+
+      document.getElementById("next-btn").addEventListener("click", (e) => {
+        e.preventDefault();
+        showSlide(currentSlide + 1);
+      });
+
+      showSlide(0);
+    });
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a8d270ef463c8d9',t:'MTc2NDg3MDY5NC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
